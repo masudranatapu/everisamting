@@ -1,0 +1,23 @@
+
+{
+    "create_review" : "Create Review",
+    "back" : "Back",
+    "name" : "Name",
+    "enter_name" : "Enter Name",
+    "comment" : "Comment",
+    "enter_comment" : "Enter Comment",
+    "star" : "Star",
+    "create" : "Create",
+    "edit_review" : "Edit Review",
+    "update" : "Update",
+    "review_list" : "Review List",
+    "add_review" : "Add Review",
+    "action" : "Action",
+    "are_you_sure_want_to_delete_this_item" : "Are you sure want to delete this item?",
+    "select_user" : "Select User",
+    "user_name" : "User Name",
+    "select_product" : "Select Product",
+    "product" : "Product"
+
+}
+

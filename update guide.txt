@@ -1,0 +1,7 @@
+Replace those files
+-----------------------
+
+1. app/Http/Controllers/Admin/SettingsController.php
+2. database/migrations/2022_08_20_041304_add_social_fields_to_settings_table.php
+3. resources/views/admin/settings/pages/preference.blade.php
+4. resources/views/components/footer/footer-social.blade.php

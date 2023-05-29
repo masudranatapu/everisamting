@@ -1,0 +1,255 @@
+.select-bg {
+    border: 1px solid #edeff5 !important;
+}
+
+a.brand-link img {
+    height: 33px;
+    width: 33px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 0.8rem;
+    margin-right: 0.5rem;
+    margin-top: -3px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+section {
+    padding-top: 100px;
+}
+
+.form-section {
+    /* padding-left:15px; */
+    display: none;
+}
+
+.form-section.current {
+    display: inherit;
+}
+
+.btn-info,
+.btn-success {
+    margin-top: 10px;
+}
+
+.parsley-errors-list {
+    margin: 2px 0 3px;
+    padding: 0;
+    list-style-type: none;
+    color: red;
+}
+
+.menu--sm.mobile-menu .mobile-menu__footer .btn:nth-child(1) {
+    width: 150px !important;
+}
+
+@media (max-width: 991px) {
+    .page-navigation__link {
+        width: 35px !important;
+        height: 35px !important;
+    }
+}
+
+.alert-warning {
+    z-index: 9999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: none;
+}
+
+.wraning-show_hide .alert-warning {
+    display: block;
+}
+
+a.navigation-bar__logo,
+.mobile-menu__brand img {
+    width: 182px;
+    height: 75px;
+}
+
+.banner--two {
+    direction: ltr;
+}
+
+.wraning-show_hide .header {
+    margin-top: 58px;
+}
+
+@media (max-width: 731px) {
+    .wraning-show_hide .header {
+        margin-top: 82px;
+    }
+
+    .wraning-show_hide .breedcrumb {
+        padding: 252px 0 60px !important;
+    }
+}
+
+@media (max-width: 416px) {
+    .wraning-show_hide .header {
+        margin-top: 106px;
+    }
+
+    .wraning-show_hide .breedcrumb {
+        padding: 265px 0 60px !important;
+    }
+}
+
+.slick-list {
+    direction: rtl;
+}
+
+.cards__info {
+    direction: ltr;
+}
+
+.testimonial-card {
+    direction: ltr;
+}
+
+/* Listing Details Sidebar  */
+li.overview-details__item {
+    -webkit-box-align: flex-start !important;
+    -ms-flex-align: flex-start !important;
+    align-items: flex-start !important;
+}
+
+li.overview-details__item .info {
+    text-align: right !important;
+}
+
+li.overview-details__item .title {
+    flex-basis: max-content;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+li.overview-details__item .title i.fas,
+li.overview-details__item .title i.far,
+li.overview-details__item .title i.fa {
+    margin-right: 5px;
+    width: 18px;
+}
+
+.product-item__sidebar-bottom .product-item__sidebar-item .overview-details__item .info {
+    color: #636a80;
+    text-align: right;
+}
+
+.unread-message-img {
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+}
+.adpost_form {
+    background: #fff;
+    padding: 20px 20px;
+}
+
+.adpost_form .dropdown button {
+    background: #fff !important;
+}
+
+.adpost_form .form-control {
+    /*border: none;*/
+    height: 50px;
+    padding: 7px 10px;
+    /*border-radius: 0px;*/
+    color: #000000;
+    /*background: #f5f5f5;*/
+    /*border-bottom: 2px solid #e8e8e8;*/
+    transition: all linear .3s;
+    -webkit-transition: all linear .3s;
+    -moz-transition: all linear .3s;
+    -ms-transition: all linear .3s;
+    -o-transition: all linear .3s;
+}
+
+.adpost_form .input-gorup-text {
+    background: #f5f5f5;
+    border: none;
+    border-bottom: 2px solid #e8e8e8;
+    outline: none !important;
+    font-size: 15px;
+    box-shadow: none !important;
+    border-left: 2px solid #dedede !important;
+    padding: 0px 7px;
+}
+
+
+
+.adpost_form .form-label {
+    font-size: 15px;
+    color: #000000;
+    font-weight: 600;
+}
+
+.adpost_form .text-danger {
+    color: #dc3545 !important;
+    font-size: 16px;
+}
+
+.adpost_form .heading h3,
+.seller_info .heading h3 {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.adpost_form .form-control[type=file] {
+    cursor: pointer;
+    line-height: 43px;
+    padding-top: 3px;
+}
+
+
+.post_category a {
+    font-size: 17px;
+    color: #000;
+    margin: 10px 0px;
+    border: 1px solid #EEE;
+    padding: 19px 5px;
+    background: #f3632d0f;
+    border-radius: 4px;
+    transition: all 500ms ease;
+    display: block;
+    font-weight: 500;
+    height: 100%;
+}
+
+.post_category a:hover {
+    border-color: #F27319;
+    background: #ff57222e;
+}
+
+.post_category a i {
+    display: block;
+    font-size: 40px;
+    margin-bottom: 12px;
+    color: #F27319;
+}
+
+@media screen and (max-width:767px) {
+    .fc .fc-toolbar {
+        display: block !important;
+        text-align: center;
+    }
+
+    .fc-toolbar-chunk {
+        margin: 13px 0px;
+    }
+}

@@ -1,0 +1,77 @@
+// home 2
+.cards--one .cards__location {
+  line-height: 1;
+  margin-right: 5px;
+  align-items: center;
+}
+
+span.icon {
+  margin-right: 5px;
+}
+[dir="rtl"] {
+  // header
+  .navigation-bar__search-field input {
+    padding-left: 0;
+    padding-right: 55px;
+  }
+  .navigation-bar__search-icon {
+    right: 21px;
+    left: auto;
+  }
+  .header--two .navigation-bar__buttons .btn:nth-child(1) {
+    margin-left: 12px;
+    margin-right: 0;
+  }
+  .language-picker__flag::before {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  span.icon {
+    margin-left: 5px;
+    margin-right: 0;
+  }
+  .language-picker__button .icon {
+    margin-right: 13px;
+    margin-left: 0;
+  }
+  // recommand add section
+  .cards--one .cards__location {
+    margin-left: 5px;
+    margin-right: 0;
+  }
+  .btn .icon--right {
+    margin-right: 8px;
+    margin-left: 0;
+  }
+  // Top Category
+  .category-menu__dropdown__link .category-icon {
+    margin-left: 16px;
+    margin-right: 0;
+  }
+  // counter
+  .counter__item-icon {
+    margin-left: 24px;
+    margin-right: 0;
+  }
+  // subscription
+  .subscribe__input-group .btn {
+    left: 12px;
+    right: auto;
+  }
+  .subscribe__input-group .icon {
+    right: 18px;
+    left: auto;
+  }
+  .subscribe__input-group {
+    padding-right: 55px;
+    padding-left: 0;
+  }
+  // footer
+  .app-logo {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+  .footer__bottom .footer__policy-condition {
+    text-align: left;
+  }
+}
