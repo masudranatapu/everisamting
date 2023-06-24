@@ -24,10 +24,11 @@
                             <tr>
                                 <th style="width: 5%">#</th>
                                 <th style="width: 15%">{{ __('title') }} </th>
-                                <th style="width: 40%">{{ __('body') }} </th>
-                                {{--                                    <th style="width: 15%">{{ __('url') }} </th>--}}
+                                <th style="width: 35%">{{ __('body') }} </th>
+                                <th style="width: 10%">{{ __('url') }} </th>
                                 <th style="width: 10%">{{ __('status') }} </th>
-                                <th style="width: 20%">{{ __('actions') }} </th>
+                                <th style="width: 10%">{{ __('last_sent') }} </th>
+                                <th style="width: 15%">{{ __('actions') }} </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,9 +41,9 @@
                                     <td>
                                         {{ $notification->body }}
                                     </td>
-                                    {{--                                        <td>--}}
-                                    {{--                                            {{ $notification->url }}--}}
-                                    {{--                                        </td>--}}
+                                    <td>
+                                        {{ $notification->url }}
+                                    </td>
                                     <td>
                                         @if($notification->status == 1)
                                             <span class="badge bg-success">Active</span>
@@ -50,19 +51,24 @@
                                             <span class="badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
+                                    <td>
+                                        @if($notification->total_success > 0)
+                                            {{ $notification->updated_at->diffForHumans() }}
+                                        @else
+                                            {{ __('not_sent') }}
+                                        @endif
+                                    </td>
                                     @if (userCan('push.notification.edit') || userCan('push.notification.delete'))
                                         <td class="text-center">
-                                            @if (userCan('serviceType.update'))
-                                                @if($notification->status == 1)
-                                                    <a title="{{ __('send') }} {{ __('push_notifications') }} "
-                                                       href="{{ route('admin.push.notification.send', $notification->id) }}"
-                                                       class="btn btn-sm bg-primary mr-1">
-                                                        <i class="fas fa-envelope"></i>
-                                                    </a>
-                                                @endif
+                                            @if (userCan('serviceType.update') && $notification->status == 1)
+                                                <a title="{{ __('send_push_notification') }} "
+                                                   href="{{ route('admin.push.notification.send', $notification->id) }}"
+                                                   class="btn btn-sm bg-primary mr-1">
+                                                    {{ $notification->total_success > 0 ? __('resend') : __('send') }}
+                                                </a>
                                             @endif
                                             @if (userCan('push.notification.edit'))
-                                                <a title="{{ __('edit') }} {{ __('push_notifications') }} "
+                                                <a title=" {{ __('edit_push_notification') }} "
                                                    href="{{ route('admin.push.notification.edit', $notification->id) }}"
                                                    class="btn btn-sm bg-info mr-1">
                                                     <i class="fas fa-edit"></i>
@@ -75,7 +81,7 @@
                                                     @method('DELETE')
                                                     @csrf
                                                     <button data-toggle="tooltip" data-placement="top"
-                                                            title="{{ __('delete') }} {{ __('push_notifications') }} "
+                                                            title="{{ __('delete_push_notification') }} "
                                                             onclick="return confirm('{{ __('Are you sure want to delete this item?') }}');"
                                                             class="btn btn-sm bg-danger"><i class="fas fa-trash"></i>
                                                     </button>

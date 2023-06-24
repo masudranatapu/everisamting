@@ -4,6 +4,12 @@
     {{ __('Create Business Directory') }}
 @endsection
 
+@push('style')
+
+    <link rel="stylesheet" href="{{asset('backend/plugins/summernote/summernote.min.css')}}">
+
+@endpush
+
 @section('content')
     <div class="content">
         <div class="container-fluid">
@@ -271,6 +277,7 @@
 @section('script')
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('backend/plugins/summernote/summernote.min.js')}}"></script>
     <script>
         $(document).ready(function() {
             $('.select2').select2({
@@ -309,6 +316,47 @@
                 }
             });
         });
+
+        $('#description').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['insert', ['link', 'picture', 'video']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ],
+            height:160,
+            callbacks: {
+                onImageUpload: function(image) {
+                    uploadImage(image[0]);
+                }
+            },
+        });
+        function uploadImage(image) {
+            const data = new FormData();
+            data.append("image", image);
+            $.ajax({
+                method:"POST",
+                url: "{{route('text-editor.image')}}",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function(url) {
+                    console.log(url)
+
+                    var image = $('<img>').attr('src', url).attr('data-src', url).attr('class', 'img-fluid img-responsive');
+                    $('#description').summernote("insertNode", image[0]);
+                },
+                error: function(data) {
+
+                    console.log(data);
+                }
+            });
+        }
+
     </script>
     <x-set-googlemap />
 @endsection

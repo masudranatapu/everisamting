@@ -13,13 +13,13 @@
                         <h3 class="card-title">
                             {{ __('ad_list') }}
                         </h3>
-{{--                        @if (userCan('ad.create'))--}}
-{{--                            <a href="{{ route('module.ad.create') }}"--}}
-{{--                                class="btn bg-primary d-inline-flex align-items-center justify-content-center">--}}
-{{--                                <i class="fas fa-plus mr-2"></i>--}}
-{{--                                <span>{{ __('add_ad') }}</span>--}}
-{{--                            </a>--}}
-{{--                        @endif--}}
+                        {{-- @if (userCan('ad.create'))
+                            <a href="{{ route('module.ad.create') }}"
+                                class="btn bg-primary d-inline-flex align-items-center justify-content-center">
+                                <i class="fas fa-plus mr-2"></i>
+                                <span>{{ __('add_ad') }}</span>
+                            </a>
+                        @endif --}}
                     </div>
 
                     <div class="card-body table-responsive">
@@ -56,15 +56,13 @@
                                     <option {{ request('filter_by') == 'active' ? 'selected' : '' }} value="active">
                                         {{ __('active') }}</option>
                                     @if ($settings->ads_admin_approval)
-                                        <option {{ request('filter_by') == 'pending' ? 'selected' : '' }}
-                                            value="pending">
+                                        <option {{ request('filter_by') == 'pending' ? 'selected' : '' }} value="pending">
                                             {{ __('pending') }}</option>
                                     @endif
                                     <option {{ request('filter_by') == 'sold' ? 'selected' : '' }} value="sold">
                                         {{ __('sold') }}</option>
                                     @if ($settings->ads_admin_approval)
-                                        <option {{ request('filter_by') == 'declined' ? 'selected' : '' }}
-                                            value="sold">
+                                        <option {{ request('filter_by') == 'declined' ? 'selected' : '' }} value="sold">
                                             {{ __('declined') }}</option>
                                     @endif
                                     <option {{ request('filter_by') == 'featured' ? 'selected' : '' }} value="featured">

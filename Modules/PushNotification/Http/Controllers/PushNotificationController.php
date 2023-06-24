@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Modules\PushNotification\Entities\UserDeviceToken;
 use Psr\Log\NullLogger;
 
@@ -27,18 +28,30 @@ class PushNotificationController extends Controller
 
     public function updateDeviceToken(Request $request)
     {
+        Log::alert($request->all());
+        $rules = [
+            'token' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
         $old_token = UserDeviceToken::where('device_token', $request->get('token'))->first();
-        if (Auth::check() && $old_token) {
+        if ($old_token) {
             if (Auth::guard('admin')->check()) {
                 $old_token->admin_id = Auth::guard('admin')->id();
-            } else {
-                $old_token->user_id = Auth::guard('user')->id();
+            } elseif(Auth::check()) {
+                $old_token->user_id =Auth::user()->id;
+            }else{
+                $old_token->user_id = $request->get('user_id') ?? nULL;
             }
             $old_token->save();
         }
         if (!$old_token) {
             UserDeviceToken::create([
-                'user_id' => Auth::guard('user')->id() ?? NULL,
+                'user_id' => auth()->id() ?? NULL,
                 'admin_id' => Auth::guard('admin')->id() ?? NULL,
                 'device_token' => $request->get('token')
             ]);
@@ -66,7 +79,7 @@ class PushNotificationController extends Controller
         Log::alert($FcmToken);
 
         $settings = Setting::first();
-        $serverKey = $settings->server_key ?? 'AAAAVHI5lYo:APA91bF7Hj0u2HiiJkV6KQrUUqUSPu8Jt1wpLQipElFGkhB-OwG4Oqncwmlxu_c8VxvNXu0m6Bld74aa_kGPNA3YsM6a7HFCGLqBq4cXydjKf2JaQ70ZVqrgECsjUdCtMnS-E5QgK_Gj'; // ADD SERVER KEY HERE PROVIDED BY FCM
+        $serverKey = $settings->server_key ?? 'AAAAHkBI1eI:APA91bE9lmpBvcYVmfZsQR6lUlo0qvVAiRM5ZbiKreeZBxldYGkWzYeSGBdFyE_eO45HuSCdwNdong-2sSTOa8lw5Gicvp-PDjb9TijPuWXLCgPreq3KOCX7qRVXkSO1JYObbuTrR_Fx'; // ADD SERVER KEY HERE PROVIDED BY FCM
 //        dd($serverKey);
 
         if (!empty($FcmToken)) {
@@ -78,6 +91,11 @@ class PushNotificationController extends Controller
                     'image' => NULL,
                     'icon' => asset($settings->favicon_image),
                     'click_action' => $action ?? url('/'),
+                ],
+                'webpush' => [
+                    'fcm_options' => [
+                        'link' =>  $action ?? url('/'),
+                    ],
                 ],
                 'priority' => 'high',
                 'openURL' => $action ?? url('/')
@@ -108,8 +126,9 @@ class PushNotificationController extends Controller
             // Close connection
             curl_close($ch);
             // FCM response
+
             return response()->json($result);
-        }else{
+        } else {
             return true;
         }
     }
@@ -250,8 +269,13 @@ class PushNotificationController extends Controller
     public function send($id)
     {
         $notification = PushNotification::find($id);
-        $this->sendNotification(null, $notification->title, $notification->body, $notification->url);
+        $send = $this->sendNotification(null, $notification->title, $notification->body, $notification->url);
+        $notification->total_success = $notification->total_success + 1;
+        $notification->updated_at->now();
+        $notification->save();
         flashSuccess('Push notification successfully sent .');
+        Log::alert($send);
+
         return redirect()->back();
     }
 }

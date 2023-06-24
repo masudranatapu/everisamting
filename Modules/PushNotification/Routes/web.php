@@ -17,7 +17,7 @@ use Modules\PushNotification\Http\Controllers\PushNotificationController;
 
 
 
-Route::post('/store-token', [PushNotificationController::class, 'updateDeviceToken'])->name('store.token');
+Route::get('/store-token', [PushNotificationController::class, 'updateDeviceToken'])->name('store.token');
 Route::post('/send-web-notification', [PushNotificationController::class, 'sendNotification'])->name('send.web-notification');
 
 

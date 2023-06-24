@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Cms;
 use App\Models\Setting;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Modules\Ad\Entities\Ad;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -178,7 +179,7 @@ class AppController extends Controller
     public function planList()
     {
         $plans =  Plan::all();
-
+        Log::alert($plans);
         return sendResponse(200, "Price Plan List", PlanResource::collection($plans), true, null);
     }
 

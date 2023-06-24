@@ -563,8 +563,17 @@ class DashboardController extends Controller
 
     public function deleteAccount(User $customer)
     {
+        $ads_exists = DB::table('ads')->where('user_id', $customer->id)->first();
+        
+        if($ads_exists) {
+            flashError('You can not delete your account due to exists your ads. Please at first delete your ads.');
+            return redirect()->back();
+        }
+
         $customer->delete();
         Auth::guard('user')->logout();
+
+        flashSuccess('Your account was successfully deleted. Thank you to use everisamting.');
         return redirect()->route('users.login');
     }
 

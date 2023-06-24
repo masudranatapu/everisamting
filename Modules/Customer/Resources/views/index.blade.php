@@ -31,12 +31,10 @@
                                                 <option {{ request('perpage') == '50' ? 'selected' : '' }} value="50">
                                                     50
                                                 </option>
-                                                <option {{ request('perpage') == '100' ? 'selected' : '' }}
-                                                    value="100">
+                                                <option {{ request('perpage') == '100' ? 'selected' : '' }} value="100">
                                                     100
                                                 </option>
-                                                <option {{ request('perpage') == 'all' ? 'selected' : '' }}
-                                                    value="all">
+                                                <option {{ request('perpage') == 'all' ? 'selected' : '' }} value="all">
                                                     All
                                                 </option>
                                             </select>
@@ -100,7 +98,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($customers as $key =>$customer)
+                                        @forelse ($customers as $key => $customer)
                                             <tr>
                                                 <td class="text-center" tabindex="0">{{ $key + 1 }}
                                                 </td>

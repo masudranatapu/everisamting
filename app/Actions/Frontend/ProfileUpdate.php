@@ -12,7 +12,7 @@ class ProfileUpdate
 {
     public static function update($request, $customer)
     {
-
+        // dd($request->all());
         if($request->receive_email){
 
             $mailexist = Email::where('email', $request->email)->first();
@@ -77,6 +77,7 @@ class ProfileUpdate
             'about_public_profile' => $request->about_public_profile,
             'receive_email' => $request->receive_email ?? 1,
         ]);
+        // dd($customer);
 
         return $customer;
     }

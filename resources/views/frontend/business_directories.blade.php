@@ -56,8 +56,8 @@
                             <select name="category" class="form-control">
                                 <option disabled selected> {{ __('select_cate') }} </option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->slug }}" {{ request('category')==$category->slug ? 'selected' :
-                                '' }}>{{ $category->name }}
+                                    <option value="{{ $category->slug }}" {{ request('category')==$category->slug ? 'selected' : '' }}>
+                                        {{ $category->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -109,7 +109,7 @@
                                                         <li><i class="fa fa-tag"></i>
                                                             <span>
                                                                 @foreach($ad->categories as $cat)
-                                                                    {{ $cat->name }} {{ $loop->last ? '.' : ', ' }}
+                                                                    {{ $cat->name }}{{ $loop->last ? '.' : ', ' }}
                                                                 @endforeach
                                                             </span></li>
                                                     @endif

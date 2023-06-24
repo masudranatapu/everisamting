@@ -10,7 +10,7 @@
     @endif
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @hasSection('meta')
     @yield('meta')
     @else
@@ -76,6 +76,8 @@
 
         gtag('config', 'G-5WF93QH3HZ');
     </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7726620269995586"
+    crossorigin="anonymous"></script>
 </head>
 
 <body
@@ -120,6 +122,11 @@
         @include('layouts.frontend.partials.scripts')
         @yield('srcipts')
         <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             // toast config
         toastr.options = {
             "closeButton": false,

@@ -1196,7 +1196,7 @@ class CustomerController extends Controller
                 }
 
                 if ($cateid) {
-                    $ads->where('category_id', $cateid);
+                    $ads->whereJsonContains('category_id',$cateid);
                 }
             }
 

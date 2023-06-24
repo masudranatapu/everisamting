@@ -3,6 +3,7 @@
 use App\Models\UserPlan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Modules\PushNotification\Http\Controllers\PushNotificationController;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdController;
@@ -30,6 +31,8 @@ Route::get('/test', function (Request $request) {
     if (Str::startsWith($header, 'Bearer ')) {
         $token = Str::substr($header, 7);
     }
+
+
 
     return $user;
 
@@ -181,3 +184,4 @@ Route::post('/send-forget-password', [ForgotPasswordController::class, 'sendRese
 Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 
 Route::post('customer/password/mail', [AuthForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::get('/storeToken', [PushNotificationController::class, 'updateDeviceToken'])->name('api.store.token');

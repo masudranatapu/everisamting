@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\Customer\Http\Requests\CustomerCreateFormRequest;
 use Modules\Customer\Http\Requests\CustomerUpdateFormRequest;
 use Tymon\JWTAuth\Claims\Custom;
+use DB;
 
 class CustomerController extends Controller
 {
@@ -177,6 +178,14 @@ class CustomerController extends Controller
      */
     public function destroy(User $customer)
     {
+        // dd($customer);
+        $ads_exists = DB::table('ads')->where('user_id', $customer->id)->first();
+        
+        if($ads_exists) {
+            flashError('You can not delete'.' '.$customer->username.' '.'account due to exists his/her ads. Please at first delete his/her ads.');
+            return redirect()->back();
+        }
+
         if ($customer) {
             $customer->delete();
         }

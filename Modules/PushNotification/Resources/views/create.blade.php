@@ -43,18 +43,18 @@
                                         @enderror
                                     </div>
                                 </div>
-{{--                                <div class="form-group row">--}}
-{{--                                    <x-forms.label name="url" class="col-sm-3" />--}}
-{{--                                    <div class="col-sm-9">--}}
-{{--                                        <input value="{{ old('url') }}" name="url" type="text"--}}
-{{--                                            class="form-control @error('url') is-invalid @enderror"--}}
-{{--                                            placeholder="{{ __('enter_url') }}">--}}
-{{--                                        @error('url')--}}
-{{--                                            <span class="invalid-feedback"--}}
-{{--                                                role="alert"><strong>{{ $message }}</strong></span>--}}
-{{--                                        @enderror--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                <div class="form-group row">
+                                    <x-forms.label name="url" class="col-sm-3" />
+                                    <div class="col-sm-9">
+                                        <input value="{{ old('url') }}" name="url" type="text"
+                                            class="form-control @error('url') is-invalid @enderror"
+                                            placeholder="{{ __('enter_url') }}">
+                                        @error('url')
+                                            <span class="invalid-feedback"
+                                                role="alert"><strong>{{ $message }}</strong></span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <x-forms.label name="status" required="true" class="col-sm-3" />
                                     <div class="col-sm-9">

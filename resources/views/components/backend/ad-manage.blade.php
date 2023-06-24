@@ -44,8 +44,9 @@
                 </td>
                 @if ($showCategory)
                     <td class="text-center" tabindex="0">
-                        <a
-                            href="{{ route('module.category.show', $ad->category->slug) }}">{{ $ad->category->name }}</a>
+                        <a href="{{ route('module.category.show', $ad->category->slug) }}">
+                            {{ $ad->category->name }}
+                        </a>
                     </td>
                 @endif
                 @if ($showCity)
@@ -57,9 +58,11 @@
                 @endif
                 @if ($showCustomer)
                     <td class="text-center" tabindex="0">
-                        <a href="{{ route('module.customer.show', $ad->customer->username) }}">
-                            {{ $ad->customer->username }}
-                        </a>
+                        @if(isset($ad->customer->username))
+                            <a href="{{ route('module.customer.show', $ad->customer->username ?? "" ) }}">
+                                {{ $ad->customer->username ?? "" }}
+                            </a>
+                        @endif
                     </td>
                 @endif
                 <td class="text-center" tabindex="0">

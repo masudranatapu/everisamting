@@ -244,9 +244,10 @@
                         </thead>
                         <tbody>
                             @forelse ($latestTransactionUsers as $transaction)
+                            @if($transaction->customer)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('module.customer.show', $transaction->customer->username) }}">
+                                        <a href="{{ route('module.customer.show', $transaction->customer->username ) }}">
                                             {{ $transaction->customer->name }}
                                         </a>
                                     </td>
@@ -262,6 +263,7 @@
                                     <td class="text-muted">
                                         {{ date('M d, Y', strtotime($transaction->created_at)) }}</td>
                                 </tr>
+                                @endif
                             @empty
                                 <tr>
                                     <td colspan="3" class="text-center">

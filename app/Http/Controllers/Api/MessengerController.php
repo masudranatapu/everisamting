@@ -11,6 +11,7 @@ use App\Notifications\NewMessageNotification;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Modules\PushNotification\Http\Controllers\PushNotificationController;
 
 class MessengerController extends Controller
 {
@@ -27,15 +28,13 @@ class MessengerController extends Controller
         $data['user'] = Auth::guard('api')->user();
 
 
-
-        $users = Messenger::join('users',  function ($join) {
+        $users = Messenger::join('users', function ($join) {
             $join->on('messengers.from_id', '=', 'users.id')
                 ->orOn('messengers.to_id', '=', 'users.id');
         })->where(function ($q) {
             $q->where('messengers.from_id', Auth::guard('api')->id())
                 ->orWhere('messengers.to_id', Auth::guard('api')->id());
         })->orderBy('messengers.created_at', 'desc')
-
             ->select('users.id as id', 'users.name', 'users.username', 'users.image', 'messengers.created_at', 'messengers.body')
             ->groupBy('id')
             ->get();
@@ -65,17 +64,14 @@ class MessengerController extends Controller
     }
 
 
-
     public function show($username = null)
     {
-
 
 
         $data['user'] = Auth::guard('api')->user();
 
 
-
-        $data['selected_user'] =  User::where('username', $username)->first();
+        $data['selected_user'] = User::where('username', $username)->first();
 
         if ($data['selected_user']) {
             $data['messages'] = $this->getMessages($data['selected_user']);
@@ -86,7 +82,6 @@ class MessengerController extends Controller
             return sendResponse(200, "User chat message List", $data, true, $discription);
         }
     }
-
 
 
     /**
@@ -114,17 +109,16 @@ class MessengerController extends Controller
     }
 
 
-
     /**
      * Send message to user
      *
      * @param Request $request
      * @param String $username
      * @return void
-
      */
     public function sendMessage(Request $request, $username)
     {
+
         $validator = Validator::make($request->all(), [
             'body' => "required|max:255",
         ]);
@@ -146,13 +140,27 @@ class MessengerController extends Controller
             ]);
         }
 
+
+
         if (!$this->checkMessageLists($user->id)) {
             Messenger::create([
-                'from_id'   =>  Auth::guard('api')->id(),
-                'to_id'     =>  $user->id,
-                'body'      =>  $request->body,
+                'from_id' => Auth::guard('api')->id(),
+                'to_id' => $user->id,
+                'body' => $request->body,
             ]);
             $data['messages'] = $this->getMessages($user);
+
+            if (setting('push_notification_status')) {
+                $auth = User::find(Auth::guard('api')->id());
+                $pushNotice = (new PushNotificationController)->sendNotification(
+                    $user->id,
+                    'New message from ' .$auth->name,
+                    $request->body,
+                    route('frontend.message', $auth->username)
+                );
+                Log::alert($pushNotice);
+            }
+
 
 
             return response()->json([
@@ -163,17 +171,24 @@ class MessengerController extends Controller
         }
 
         $message = Messenger::create([
-            'from_id'   =>  Auth::guard('api')->id(),
-            'to_id'     =>  $user->id,
-            'body'      =>  $request->body,
+            'from_id' => Auth::guard('api')->id(),
+            'to_id' => $user->id,
+            'body' => $request->body,
         ]);
 
+        if (setting('push_notification_status')) {
+            $auth = User::find(Auth::guard('api')->id());
+            $pushNotice = (new PushNotificationController)->sendNotification(
+                $user->id,
+                'New message from ' .$auth->name,
+                $request->body,
+                route('frontend.message', $auth->username)
+            );
+            Log::alert($pushNotice);
+        }
 
 
-
-
-
-        $selected_user =  User::where('username', $username)->first();
+        $selected_user = User::where('username', $username)->first();
 
         if ($selected_user) {
             $data['messages'] = $this->getMessages($selected_user);
@@ -189,12 +204,12 @@ class MessengerController extends Controller
     /**
      * Check is already in message lists
      *
-     * @param init  $id
+     * @param init $id
      * @return bool
      */
     public function checkMessageLists($id)
     {
-        return (bool) Messenger::where(function ($query) use ($id) {
+        return (bool)Messenger::where(function ($query) use ($id) {
             $query->where(function ($q) use ($id) {
                 $q->where('from_id', Auth::guard('api')->id());
                 $q->where('to_id', $id);

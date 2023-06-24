@@ -179,6 +179,7 @@ class FrontendController extends Controller
      * @return \Illuminate\Http\Response
      * @return void
      */
+
     public function about()
     {
         $testimonials = Testimonial::latest('id')->get();
@@ -189,9 +190,11 @@ class FrontendController extends Controller
 
     public function businessDirectories(Request $request)
     {
-        $categories = Category::active()->where('type', 2)->get();
+
+        $categories = Category::active()->where('type', 2)->orderBy('name', 'asc')->get();
 
         $ads = BusinessDirectory::where('status', 'active');
+
         if ($request->sort) {
             if ($request->sort == 'az') {
                 $ads->orderBy('title', 'ASC');
@@ -213,10 +216,10 @@ class FrontendController extends Controller
             } else {
                 $cateid = null;
             }
-//            dd($cateid);
+
 
             if ($cateid) {
-                $ads->whereJsonContains('category_id',json_encode($cateid));
+                $ads->whereJsonContains('category_id',$cateid);
             }
         }
 
@@ -249,9 +252,10 @@ class FrontendController extends Controller
             'total_views' => $view->total_views + 1,
         ]);
 
-        $categories = Category::where('type', 2)->get();
+        $categories = Category::active()->where('type', 2)->orderBy('name', 'asc')->get();
 
         $ad = BusinessDirectory::where('id', $id)->first();
+        $ad->categories = Category::findMany($ad->category_id);
 
         return view('frontend.business_details', compact('ad', 'categories'));
     }
@@ -600,7 +604,7 @@ class FrontendController extends Controller
 //        dd($venues);
         $events = Event::where('id', $id)->first();
 
-        $related_event = Event::whereJsonContains('category_id', json_decode($events->category_id))->where('id', '!=', $events->id)->get();
+        $related_event = Event::whereJsonContains('category_id', $events->category_id)->where('id', '!=', $events->id)->get();
         // dd($related_event);
         return view('frontend.event.event_details', compact('events', 'categories', 'tags', 'venues', 'related_event'));
     }
@@ -889,5 +893,16 @@ class FrontendController extends Controller
 
 
         return response()->json(['event' => $events, 'html' => $html]);
+    }
+
+
+    public function postEditorImageUpload(Request $request)
+    {
+        if (!is_null($request->file('image')))
+        {
+            $image = $request->file('image');
+            $path=uploadImage($image,"cash_payment_direction");
+            return asset($path);
+        }
     }
 }

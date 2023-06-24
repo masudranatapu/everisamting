@@ -98,7 +98,7 @@
                                     <div class="col-lg-6 p-2 ps-lg-0">
                                         <div class="details">
                                             @if ($ad->description)
-                                                <p>{{ $ad->description }}</p>
+                                                <p>{!! $ad->description  !!} </p>
                                             @endif
                                         </div>
 
@@ -107,7 +107,7 @@
                                     <div class="details p-2 mt-0 pt-0">
                                         @if ($ad->description)
                                             <p>
-                                                {{ $ad->description }}
+                                                {!!  $ad->description  !!}
                                             </p>
                                         @endif
                                     </div>
@@ -116,14 +116,24 @@
 
                                 <div class="business_date mt-3">
                                     <ul>
+                                        @if($ad->categories && $ad->categories->count() > 0 )
+                                        <li><i class="fa fa-tag"></i>
+                                            <span>
+                                                @foreach($ad->categories as $cat)
+                                                    {{ $cat->name }}{{ $loop->last ? '.' : ', ' }}
+                                                @endforeach
+                                            </span></li>
+                                        @endif
+
                                         <li>
                                             <i class="fa fa-calendar"></i>
-                                            <span>{{ \Carbon\Carbon::parse($ad->created_at)->format('d M Y') }}</span>
+                                            <span>{{ \Carbon\Carbon::parse($ad->created_at)->format('d M Y') }} 12</span>
                                         </li>
                                         <li>
                                             <i class="fa fa-eye"></i>
                                             <span>{{ $ad->total_views }}</span>
                                         </li>
+
                                     </ul>
                                     <h2>{{ $ad->title }}</h2>
                                 </div>

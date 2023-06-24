@@ -112,10 +112,7 @@ Route::group(['as' => 'frontend.'], function () {
             Route::get('post-rules', 'postRules')->name('post.rules');
             Route::get('ad/{ad:slug}', 'editAd')->name('editad');
             Route::get('ads', 'myAds')->name('adds');
-            Route::delete('delete-
-
-
-            /{ad}', 'deleteMyAd')->name('delete.myad');
+            Route::delete('delete-ad/{ad}', 'deleteMyAd')->name('delete.myad');
             Route::put('status-ads/{ad}', 'myAdStatus')->name('myad.status');
             Route::put('expire-ads/{ad}', 'markExpired')->name('myad.expire');
             Route::put('active-ad/{ad}', 'markActive')->name('myad.active');
@@ -153,3 +150,4 @@ Route::get('/get-sub-categories/{category_id}', [AdPostController::class, 'getSu
 Route::get('get-product-models', [AdPostController::class, 'getProductModel'])->name('getProductModel');
 
 Route::get('/saveDeviceToken', [PushNotificationController::class, 'saveDeviceToken'])->name('notification.save-token');
+Route::post('ajax/text-editor/image', [FrontendController::class, 'postEditorImageUpload'])->name('text-editor.image');

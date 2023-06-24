@@ -112,10 +112,11 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-lg-6 col-md-12 mb-3 mb-lg-0">
+
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-12 mb-3 mb-lg-0">
+                            <div class="row p-4">
+                                <div class="col-lg-12 col-md-12 mb-3 mb-lg-0">
                                     <label for="">{{ __('business_location') }} <span
                                             class="text-danger">*</span></label>
                                     <input name="address"
@@ -128,20 +129,6 @@
                                           role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
 
-                                    <div class="mt-3">
-                                        <label for="description">{{ __('description') }}</label>
-                                        <textarea class="form-control" name="description" id="description"
-                                                  placeholder="{{ __('description') }}"
-                                                  style="height: 200px">{{ $businessdirectories->description }}</textarea>
-
-                                        @error('description')
-                                        <span class="invalid-feedback"
-                                              role="alert"><strong>{{ $message }}</strong></span>
-                                        @enderror
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-6 col-md-12">
                                     <label for="">{{ __('map') }} </label>
 
                                     <div>
@@ -153,6 +140,21 @@
                                     <span class="invalid-feedback"
                                           role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
+
+
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="mt-3">
+                                        <label for="description">{{ __('description') }}</label>
+                                        <textarea class="form-control" name="description" id="description"
+                                                  placeholder="{{ __('description') }}"
+                                                  style="height: 200px">{{ $businessdirectories->description }}</textarea>
+
+                                        @error('description')
+                                        <span class="invalid-feedback"
+                                              role="alert"><strong>{{ $message }}</strong></span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -188,6 +190,8 @@
 @endsection
 
 @section('adlisting_style')
+    <link rel="stylesheet" href="{{asset('backend/plugins/summernote/summernote.min.css')}}">
+
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     {{-- select  --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
@@ -263,6 +267,8 @@
 @endsection
 
 @section('frontend_script')
+    <script src="{{asset('backend/plugins/summernote/summernote.min.js')}}"></script>
+
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
@@ -288,6 +294,47 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        $('#description').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['insert', ['link', 'picture', 'video']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ],
+            height:160,
+            callbacks: {
+                onImageUpload: function(image) {
+                    uploadImage(image[0]);
+                }
+            },
+        });
+        function uploadImage(image) {
+            const data = new FormData();
+            data.append("image", image);
+            $.ajax({
+                method:"POST",
+                url: "{{route('text-editor.image')}}",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function(url) {
+                    console.log(url)
+
+                    var image = $('<img>').attr('src', url).attr('data-src', url).attr('class', 'img-fluid img-responsive');
+                    $('#description').summernote("insertNode", image[0]);
+                },
+                error: function(data) {
+
+                    console.log(data);
+                }
+            });
+        }
+
     </script>
 
 

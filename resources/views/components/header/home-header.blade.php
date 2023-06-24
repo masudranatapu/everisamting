@@ -75,9 +75,10 @@
                         <ul class="category-menu__dropdown">
                             <div class="overflow_scroll">
                                 @foreach ($categories as $category)
-
                                     @php
-                                        $totalcateads = DB::table('ads')->where('category_id', $category->id)->get();
+                                        $totalcateads = DB::table('ads')
+                                            ->where('category_id', $category->id)
+                                            ->get();
                                     @endphp
                                     {{-- Filter Form-2 --}}
                                     <form method="GET" action="{{ route('frontend.adlist.search') }}"
@@ -86,9 +87,11 @@
                                     </form>
 
                                     <li class="category-menu__dropdown__item">
-                                        <a href="{{ route('frontend.adlist.search', $category->slug) }}" class="category-menu__dropdown__link">
+                                        <a href="{{ route('frontend.adlist.search', $category->slug) }}"
+                                            class="category-menu__dropdown__link">
                                             <i class="category-icon {{ $category->icon }}" style="color: #f27319"></i>
-                                            {{ __(str_replace(' ', '_', strtolower($category->name))) }} ( {{ $totalcateads->count() }} )
+                                            {{ __(str_replace(' ', '_', strtolower($category->name))) }} (
+                                            {{ $totalcateads->count() }} )
                                             @if ($category->subcategories->count() > 0)
                                                 <span class="drop-icon">
                                                     <x-svg.category-right-icon />
@@ -100,18 +103,23 @@
                                                 <div class="overflow_scroll">
                                                     @foreach ($category->subcategories as $subcategory)
                                                         @php
-                                                            $totalsubcateads = DB::table('ads')->where('subcategory_id', $subcategory->id)->get();
+                                                            $totalsubcateads = DB::table('ads')
+                                                                ->where('subcategory_id', $subcategory->id)
+                                                                ->get();
                                                         @endphp
                                                         {{-- Filter Form-3 --}}
-                                                        <form method="GET" action="{{ route('frontend.adlist.search') }}"
+                                                        <form method="GET"
+                                                            action="{{ route('frontend.adlist.search') }}"
                                                             id="adFilterForm3" class="d-none">
                                                             <input type="hidden" name="subcategory[]" value=""
                                                                 id="adFilterInput3">
                                                         </form>
 
                                                         <li class="category-menu__subdropdown__item">
-                                                            <a href="{{ route('frontend.adlist.search', [$category->slug, 'subcategory[]' => $subcategory->slug ]) }}"  class="category-menu__subdropdown__link">
-                                                                {{ __(str_replace(' ', '_', strtolower($subcategory->name))) }} ( {{ $totalsubcateads->count() }} )
+                                                            <a href="{{ route('frontend.adlist.search', [$category->slug, 'subcategory[]' => $subcategory->slug]) }}"
+                                                                class="category-menu__subdropdown__link">
+                                                                {{ __(str_replace(' ', '_', strtolower($subcategory->name))) }}
+                                                                ( {{ $totalsubcateads->count() }} )
                                                             </a>
                                                         </li>
                                                     @endforeach
@@ -127,8 +135,15 @@
                 <!-- Category Item -->
                 <ul class="categories">
                     <li class="categories__item">
-                        <a href="{{ route('frontend.business.directories') }}" class="categories__link" style="font-weight: bold; color: black;">
+                        <a href="{{ route('frontend.business.directories') }}" class="categories__link"
+                            style="font-weight: bold; color: black;">
                             {{ __('directories') }}
+                        </a>
+                    </li>
+                    <li class="categories__item">
+                        <a href="{{ route('frontend.event') }}" class="categories__link"
+                            style="font-weight: bold; color: black;">
+                            {{ __('events') }}
                         </a>
                     </li>
                     @foreach ($top_categories as $category)

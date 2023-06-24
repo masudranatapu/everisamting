@@ -30,6 +30,7 @@ class User extends Authenticatable implements JWTSubject
         'show_phone',
         'opening_hour',
         'closing_hours',
+        'is_social_login',
         'about_public_profile',
         'username',
         'password'
